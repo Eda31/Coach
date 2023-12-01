@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText txtTaille;
     private EditText txtAge;
     private RadioButton rdHomme;
+    private RadioButton rdFemme;
     private TextView lblIMG;
     private ImageView imgSmiley;
     private Button btnCalc;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        recupProfil(); // Appel de la méthode pour récupérer et afficher
+        controle = new Controle(this);
     }
 
     /**
@@ -46,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
         txtTaille = (EditText) findViewById(R.id.txtTaille);
         txtAge = (EditText) findViewById(R.id.txtAge);
         rdHomme = (RadioButton) findViewById(R.id.rdHomme);
+        rdFemme = (RadioButton) findViewById(R.id.rdFemme);
         lblIMG = (TextView) findViewById(R.id.lblIMG);
         imgSmiley = (ImageView) findViewById(R.id.imgSmiley);
         btnCalc = (Button) findViewById(R.id.btnCalc);
-        controle = Controle.getInstance();
+        controle = Controle.getInstance(this);
         ecouteCalcul();
     }
 
@@ -70,7 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(poids == 0 || taille == 0 || age == 0){
                     Toast.makeText(MainActivity.this, "Veuillez saisir tous les champs", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
+                    // Appel de la méthode creerProfil avec le contexte pour la sauvegarde automatique
+                    controle.creerProfil(poids, taille, age, sexe, MainActivity.this);
                     afficheResult(poids, taille, age, sexe);
                 }
             }
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
      * @param sexe
      */
     private void afficheResult(Integer poids, Integer taille, Integer age, Integer sexe) {
-        controle.creerProfil(poids, taille, age, sexe);
+        controle.creerProfil(poids, taille, age, sexe, MainActivity.this);
         float img = controle.getImg();
         String message = controle.getMessage();
         switch(message){
@@ -104,5 +110,35 @@ public class MainActivity extends AppCompatActivity {
         }
         lblIMG.setText(String.format("%.01f", img)+" : IMG "+message);
     }
+    private void recupProfil() {
+        // Teste la propriété taille du profil
+        Integer taille = controle.getTaille();
+        if (taille != null) {
+            // Valorise chaque objet graphique par les informations récupérées grâce aux getters
+            txtTaille.setText(String.valueOf(taille));
 
+            // Faites de même pour les autres propriétés (poids, age, sexe)
+            Integer poids = controle.getPoids();
+            if (poids != null) {
+                txtPoids.setText(String.valueOf(poids));
+            }
+
+            Integer age = controle.getAge();
+            if (age != null) {
+                txtAge.setText(String.valueOf(age));
+            }
+
+            Integer sexe = controle.getSexe();
+            if (sexe != null) {
+                if (sexe == 1) {
+                    rdHomme.setChecked(true);
+                } else {
+                    rdFemme.setChecked(true);
+                }
+            }
+            // Vous pouvez également mettre à jour d'autres objets graphiques selon vos besoins
+            // Puis, lancez le calcul et affichez les résultats comme d'habitude
+            btnCalc.performClick();
+        }
+    }
 }

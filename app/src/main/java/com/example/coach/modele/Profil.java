@@ -1,12 +1,17 @@
 package com.example.coach.modele;
 
+import com.example.coach.outils.Serializer;
+
+import java.io.Serializable;
+
 /**
  * Classe métier Profil
  * contient les informations du profil
  */
-public class Profil {
+public class Profil implements Serializable {
 
     // constantes
+    private static final long serialVersionUID = 1L; // numéro de version pour la sérialisation
     private static final Integer minFemme = 15; // maigre si en dessous
     private static final Integer maxFemme = 30; // gros si au dessus
     private static final Integer minHomme = 10; // maigre si en dessous
