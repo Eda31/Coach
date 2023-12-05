@@ -2,8 +2,11 @@ package com.example.coach.controleur;
 
 import android.content.Context;
 
+import com.example.coach.modele.AccesLocal;
 import com.example.coach.modele.Profil;
 import com.example.coach.outils.Serializer;
+
+import java.util.Date;
 
 /**
  * Classe singleton Controle : répond aux attentes de l'activity
@@ -11,11 +14,12 @@ import com.example.coach.outils.Serializer;
 public class Controle {
     private static Controle instance;
     private static Profil profil;
-    private static String nomFic = "saveprofil"; // Propriété statique pour le nom du fichier de sérialisation
+    private static final String nomFic = "saveprofil"; // Propriété statique pour le nom du fichier de sérialisation
     private static Context context; // Ajout de la propriété contexte
     private Controle() {
         super();
     }
+    private AccesLocal accesLocal;
 
     // Ajout du contexte au constructeur
     public Controle(Context context) {
@@ -31,7 +35,7 @@ public class Controle {
     public static Controle getInstance(Context context) {
         if(instance == null){
             instance = new Controle(context);
-            recupSerialize(context); // Appel de recupSerialize avec le contexte
+            //recupSerialize(context); // Appel de recupSerialize avec le contexte
         }
         return instance;
     }
@@ -44,9 +48,13 @@ public class Controle {
      * @param sexe 1 pour homme, 0 pour femme
      */
     public void creerProfil(Integer poids, Integer taille, Integer age, Integer sexe, Context context) {
-        profil = new Profil(poids, taille, age, sexe);
+        profil = new Profil(poids, taille, age, sexe, new Date());
         //Sérialisation du profil
-        Serializer.serialize(nomFic, profil, context);
+        //Serializer.serialize(nomFic, profil, context);
+
+        // Ajout du nouveau profil dans la base locale
+        accesLocal = AccesLocal.getInstance(context);
+        accesLocal.ajout(profil); // Utilisation de la méthode ajout pour ajouter le profil
     }
 
     /**
@@ -134,4 +142,5 @@ public class Controle {
             profil = null;
         }
     }
+
 }

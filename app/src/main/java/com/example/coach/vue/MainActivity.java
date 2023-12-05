@@ -85,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Affiche l'image et le message correspondant au calcul de l'img
-     * @param poids
-     * @param taille
-     * @param age
-     * @param sexe
+     * @param poids poids récupéré
+     * @param taille taille récupéré
+     * @param age age récupéré
+     * @param sexe sexe récupéré
      */
     private void afficheResult(Integer poids, Integer taille, Integer age, Integer sexe) {
         controle.creerProfil(poids, taille, age, sexe, MainActivity.this);

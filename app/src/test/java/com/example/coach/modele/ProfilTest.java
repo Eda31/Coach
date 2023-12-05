@@ -4,10 +4,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class ProfilTest {
 
     // création d’un profil : femme de 67kg, 1m65, 35 ans
-    private final Profil profil = new Profil(67, 165, 35, 0);
+    private final Profil profil = new Profil(67, 165, 35, 0, new Date(123, 3, 20));
 
     @Test
     public void getImg() {
