@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        recupProfil(); // Appel de la méthode pour récupérer et afficher
-        controle = new Controle(this);
+        // recupProfil(); // Appel de la méthode pour récupérer et afficher
+        controle = Controle.getInstance(this);
     }
 
     /**
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Veuillez saisir tous les champs", Toast.LENGTH_SHORT).show();
                 } else {
                     // Appel de la méthode creerProfil avec le contexte pour la sauvegarde automatique
-                    controle.creerProfil(poids, taille, age, sexe, MainActivity.this);
+                    controle.creerProfil(poids, taille, age, sexe);
                     afficheResult(poids, taille, age, sexe);
                 }
             }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
      * @param sexe sexe récupéré
      */
     private void afficheResult(Integer poids, Integer taille, Integer age, Integer sexe) {
-        controle.creerProfil(poids, taille, age, sexe, MainActivity.this);
+        // controle.creerProfil(poids, taille, age, sexe, MainActivity.this);
         float img = controle.getImg();
         String message = controle.getMessage();
         switch(message){
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         }
         lblIMG.setText(String.format("%.01f", img)+" : IMG "+message);
     }
-    private void recupProfil() {
+    public void recupProfil() {
         // Teste la propriété taille du profil
         Integer taille = controle.getTaille();
         if (taille != null) {

@@ -87,7 +87,7 @@ public class AccesLocal extends MySQLiteOpenHelper {
             int sexe = curseur.getInt(4);
 
             // Conversion de la date (pour le moment, utilisation de la date du jour)
-            Date dateMesure = MesOutils.convertStringToDate(dateMesureStr);
+            Date dateMesure = MesOutils.convertStringToDate(dateMesureStr, "yyyy-MM-dd HH:mm:ss");
 
             // Valorisation de l'objet profil
             profil = new Profil(poids, taille, age, sexe, dateMesure);
